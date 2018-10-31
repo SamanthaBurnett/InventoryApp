@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">InventoryApp</string>
+    <string name="quantity">Quantity:</string>
+    <string name="price">$</string>
+    <string name="product_name">Product Name</string>
+    <string name="insert_dummy_data">Insert Dummy Data</string>
+    <string name="delete_all">Delete All</string>
+    <string name="action_save">Save</string>
+    <string name="action_delete">Delete</string>
+    <string name="delete_item">Delete Item</string>
+    <string name="dummy_num">555-555-5555</string>
+    <string name="supplier_num">Supplier #:</string>
+    <string name="dummy_suppl">Skull Candy Ltd.</string>
+    <string name="supplier_name">Supplier:</string>
+    <string name="quantity_amount">Quantity:</string>
+    <string name="dummy_price">29.99</string>
+    <string name="product_price">Product Price: $</string>
+    <string name="dummy_product">Ex. Beats By Dre</string>
+    <string name="product_name_1">Product Name:</string>
+    <string name="below_0_warning">Quantity cannot be below 0</string>
+    <string name="error_saving">Error saving item</string>
+    <string name="success_saving">Item successfully saved!</string>
+    <string name="error_udating">Error updating item</string>
+    <string name="success_updating">Successfully updated!</string>
+    <string name="delete_failed">Could not delete item</string>
+    <string name="delete_success">Successfully deleted!</string>
+    <string name="unsaved_warning">Unsaved changes will be deleted</string>
+    <string name="discard_item">Discard</string>
+    <string name="keep_editing">Keep Editing</string>
+    <string name="delete_warning">Are you sure you\'d like to delete this item?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_product">Add Product</string>
+    <string name="edit_product">Edit Product</string>
+    <string name="empty_inventory">Inventory is empty :(</string>
+    <string name="empty_instructions">Add an item by either inserting dummy data   from the top right menu or add an item   or use the button in the lower right corner to insert a new item   by entering the name of the item, it\'s price,   how many are in stock, the supplier and their number.</string>
+</resources>
