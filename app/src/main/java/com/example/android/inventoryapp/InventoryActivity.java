@@ -27,6 +27,7 @@ import com.example.android.inventoryapp.data.InventoryContract;
 import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 
 public class InventoryActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
+    public static final String LOG_TAG = InventoryActivity.class.getSimpleName();
 
     private static final int ITEM_LOADER = 0;
 
@@ -151,7 +152,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
     public void onLoaderReset(Loader<Cursor> loader) {
         ca.swapCursor(null);
     }
-/*
+
     // Helper method to update the database when sale button is clicked
     public void updateAfterSale(int id, int newQuantity) {
         ContentValues cv = new ContentValues();
@@ -159,5 +160,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
 
         Uri uri = ContentUris.withAppendedId(InventoryEntry.CONTENT_URI, id);
         getContentResolver().update(uri, cv, null, null);
-    }*/
+
+        Log.v(LOG_TAG, "Database updated");
+    }
 }

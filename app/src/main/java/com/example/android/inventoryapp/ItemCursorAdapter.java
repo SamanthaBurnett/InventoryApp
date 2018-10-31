@@ -29,13 +29,16 @@ public class ItemCursorAdapter extends CursorAdapter {
     }
 
     @Override
-    public void bindView(View view, Context context, Cursor cursor) {
+    public void bindView(View view, final Context context, Cursor cursor) {
 
         // Information that will be displayed.
         TextView prodName = view.findViewById(R.id.prod_name);
         TextView prodPrice = view.findViewById(R.id.price);
         final TextView quantity = view.findViewById(R.id.quantity);
         Button saleBtn = view.findViewById(R.id.sale_btn);
+
+        // Get row id to update quantity in database
+        final String rowID = cursor.getString(cursor.getColumnIndex(InventoryContract.InventoryEntry.SKU));
 
         // Handles sale button being pressed
         saleBtn.setOnClickListener(new View.OnClickListener() {
@@ -48,14 +51,13 @@ public class ItemCursorAdapter extends CursorAdapter {
 
                 if (newQuantity > 0) {
                     newQuantity--;
+                    InventoryActivity inventoryActivity = (InventoryActivity) context;
+                    inventoryActivity.updateAfterSale(Integer.parseInt(rowID), newQuantity);
                 } else {
                     Toast.makeText(v.getContext(), "Out of Stock! Cannot be sold!", Toast.LENGTH_SHORT).show();
                 }
 
                 quantity.setText(Integer.toString(newQuantity));
-
-               /* InventoryActivity ia = (InventoryActivity) context;
-                InventoryActivity.updateAfterSale();*/
             }
         });
 
@@ -69,12 +71,4 @@ public class ItemCursorAdapter extends CursorAdapter {
         prodPrice.setText(pPrice);
         quantity.setText(pQuantity);
     }
-/*
-    // Update the database when the sale button is pressed
-    private void update(int quantity) {
-        ContentValues cv = new ContentValues();
-        cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY, int quantity);
-        int rowsDeleted = getContentResolver().delete(InventoryContract.InventoryEntry.CONTENT_URI, null, null);
-        //db.update(TABLE_NAME, cv, Column + "= ?", new String[] {rowId});
-    }*/
 }
