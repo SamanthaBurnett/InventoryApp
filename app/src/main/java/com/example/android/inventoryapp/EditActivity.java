@@ -30,6 +30,9 @@ import com.example.android.inventoryapp.data.InventoryContract.InventoryEntry;
 public class EditActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String LOG_TAG = EditActivity.class.getSimpleName();
 
+    // Prevents edit activity from exiting until user fills in fields
+    boolean checkExisting = true;
+
     EditText supplNum;
 
     // Where user will be able to edit the product's name
@@ -145,6 +148,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
     // Decrease quantity and ensure it doesn't go below 0
     public void decrease(View view) {
+        changed = true;
         TextView quantity = findViewById(R.id.edit_quantity);
         int newQuantity = Integer.parseInt(quantity.getText().toString().trim());
         if (newQuantity > 0) {
@@ -160,6 +164,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
     // Increase quantity
     public void increase(View view) {
+        changed = true;
         TextView quantity = findViewById(R.id.edit_quantity);
         int newQuantity = Integer.parseInt(quantity.getText().toString().trim());
         newQuantity++;
@@ -183,12 +188,16 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
         // Makes checks before saving
         if (TextUtils.isEmpty(pName)) {
             Toast.makeText(this, "Product name required", Toast.LENGTH_SHORT).show();
+            checkExisting = false;
         } else if (TextUtils.isEmpty(pPrice)) {
             Toast.makeText(this, "Product price required", Toast.LENGTH_SHORT).show();
+            checkExisting = false;
         } else if (TextUtils.isEmpty(sName)) {
             Toast.makeText(this, "Supplier name required", Toast.LENGTH_SHORT).show();
+            checkExisting = false;
         } else if (TextUtils.isEmpty(sNum)) {
             Toast.makeText(this, "Supplier number required", Toast.LENGTH_SHORT).show();
+            checkExisting = false;
         } else {
             // If all required fields are filled in then put item in database
             cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_NAME, pName);
@@ -233,67 +242,6 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 }
             }
         }
-
-        /*
-        if (!TextUtils.isEmpty(pName)) {
-            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_NAME, pName);
-        } else {
-            Toast.makeText(this, "Product name required", Toast.LENGTH_SHORT).show();
-        }
-
-        if (!TextUtils.isEmpty(pPrice)) {
-            int price = Integer.parseInt(pPrice);
-            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_PRICE, price);
-        } else {
-            Toast.makeText(this, "Product price required", Toast.LENGTH_SHORT).show();
-        }
-        // If no quantity is provided by user then we default to 0
-        int q = 0;
-        if (!TextUtils.isEmpty(pQuantity)) {
-            q = Integer.parseInt(pQuantity);
-            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY, q);
-        } else {
-            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY, q);
-        }
-
-        if (!TextUtils.isEmpty(sName)) {
-            cv.put(InventoryContract.InventoryEntry.COLUMN_SUPPL_NAME, sName);
-        } else {
-            Toast.makeText(this, "Supplier name required", Toast.LENGTH_SHORT).show();
-        }
-
-        if (!TextUtils.isEmpty(sNum)) {
-            cv.put(InventoryContract.InventoryEntry.COLUMN_SUPPL_NUM, sNum);
-        } else {
-            Toast.makeText(this, "Supplier number required", Toast.LENGTH_SHORT).show();
-        }*/
-/*
-        // Check whether or not this is an existing item
-        if (currentItemUri == null) {
-            //This is a new item so insert it into the provider
-            Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, cv);
-
-            // Show toast based on success of save
-            if (newUri == null) {
-                // If the new content URI is null, then there was an error with insertion.
-                Toast.makeText(this, getString(R.string.error_saving), Toast.LENGTH_SHORT).show();
-            } else {
-                // Otherwise, it was successfully saved
-                Toast.makeText(this, getString(R.string.success_saving),Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            // There is an existing item so update it
-            int rowsAffected = getContentResolver().update(currentItemUri, cv, null, null);
-
-            // Show toast based on success of update
-            if (rowsAffected == 0) {
-                // There was an error
-                Toast.makeText(this, getString(R.string.error_udating), Toast.LENGTH_SHORT).show();
-            } else {
-                // Successfully update
-                Toast.makeText(this, getString(R.string.success_updating), Toast.LENGTH_SHORT).show();
-            }
-        }*/
     }
 
     @Override
@@ -329,7 +277,9 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                     saveItem();
                 }
                 //Exit activity
-                finish();
+                if (checkExisting) {
+                    finish();
+                }
                 return true;
             // Respond to a click on the "Delete" menu option
             case R.id.action_delete:

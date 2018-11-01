@@ -27,7 +27,7 @@ public class InventoryHelper extends SQLiteOpenHelper {
         String SQL_CREATE_INVENTORY_TABLE =  "CREATE TABLE " + InventoryContract.InventoryEntry.TABLE_NAME + " ("
                 + InventoryContract.InventoryEntry.SKU + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + InventoryContract.InventoryEntry.COLUMN_PROD_NAME + " TEXT NOT NULL, "
-                + InventoryContract.InventoryEntry.COLUMN_PROD_PRICE + " INTEGER NOT NULL, "
+                + InventoryContract.InventoryEntry.COLUMN_PROD_PRICE + " REAL NOT NULL, "
                 + InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY + " INTEGER DEFAULT 0, "
                 + InventoryContract.InventoryEntry.COLUMN_SUPPL_NAME + " TEXT NOT NULL, "
                 + InventoryContract.InventoryEntry.COLUMN_SUPPL_NUM + " TEXT NOT NULL);";
