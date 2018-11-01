@@ -81,7 +81,7 @@ public class InventoryActivity extends AppCompatActivity implements LoaderManage
         //Create the row to be inserted
         ContentValues values = new ContentValues();
         values.put(InventoryEntry.COLUMN_PROD_NAME, "55' Smart TV");
-        values.put(InventoryEntry.COLUMN_PROD_PRICE, 15);
+        values.put(InventoryEntry.COLUMN_PROD_PRICE, 15.99);
         values.put(InventoryEntry.COLUMN_PROD_QUANTITY, 5);
         values.put(InventoryEntry.COLUMN_SUPPL_NAME, "Iyana Industries");
         values.put(InventoryEntry.COLUMN_SUPPL_NUM, "914-555-1016");

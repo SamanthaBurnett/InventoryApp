@@ -202,7 +202,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             // If all required fields are filled in then put item in database
             cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_NAME, pName);
 
-            int price = Integer.parseInt(pPrice);
+            double price = Double.parseDouble(pPrice);
             cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_PRICE, price);
 
             int q = 0;
@@ -227,6 +227,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else {
                     // Otherwise, it was successfully saved
                     Toast.makeText(this, getString(R.string.success_saving),Toast.LENGTH_SHORT).show();
+                    checkExisting = true;
                 }
             } else {
                 // There is an existing item so update it
@@ -239,6 +240,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 } else {
                     // Successfully update
                     Toast.makeText(this, getString(R.string.success_updating), Toast.LENGTH_SHORT).show();
+                    checkExisting = true;
                 }
             }
         }
@@ -456,14 +458,14 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
             // Extract values from the cursor for the given column index
             String prodName = cursor.getString(nameColumnIndex);
-            int prodPrice = cursor.getInt(priceColumnIndex);
+            double prodPrice = cursor.getDouble(priceColumnIndex);
             int prodQuantity = cursor.getInt(quantityColumnIndex);
             String supName = cursor.getString(sNameColumnIndex);
             String supNum = cursor.getString(sNumColumnIndex);
 
             //Update views
             pNameET.setText(prodName);
-            pPriceET.setText(Integer.toString(prodPrice));
+            pPriceET.setText(Double.toString(prodPrice));
             pQuantityTV.setText(Integer.toString(prodQuantity));
             sNameET.setText(supName);
             sNumET.setText(supNum);
