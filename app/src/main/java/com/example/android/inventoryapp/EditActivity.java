@@ -181,6 +181,60 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
 
         ContentValues cv = new ContentValues();
         // Makes checks before saving
+        if (TextUtils.isEmpty(pName)) {
+            Toast.makeText(this, "Product name required", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(pPrice)) {
+            Toast.makeText(this, "Product price required", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(sName)) {
+            Toast.makeText(this, "Supplier name required", Toast.LENGTH_SHORT).show();
+        } else if (TextUtils.isEmpty(sNum)) {
+            Toast.makeText(this, "Supplier number required", Toast.LENGTH_SHORT).show();
+        } else {
+            // If all required fields are filled in then put item in database
+            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_NAME, pName);
+
+            int price = Integer.parseInt(pPrice);
+            cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_PRICE, price);
+
+            int q = 0;
+            if (!TextUtils.isEmpty(pQuantity)) {
+                q = Integer.parseInt(pQuantity);
+                cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY, q);
+            } else {
+                cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_QUANTITY, q);
+            }
+
+            cv.put(InventoryContract.InventoryEntry.COLUMN_SUPPL_NAME, sName);
+            cv.put(InventoryContract.InventoryEntry.COLUMN_SUPPL_NUM, sNum);
+            // Check whether or not this is an existing item
+            if (currentItemUri == null) {
+                //This is a new item so insert it into the provider
+                Uri newUri = getContentResolver().insert(InventoryContract.InventoryEntry.CONTENT_URI, cv);
+
+                // Show toast based on success of save
+                if (newUri == null) {
+                    // If the new content URI is null, then there was an error with insertion.
+                    Toast.makeText(this, getString(R.string.error_saving), Toast.LENGTH_SHORT).show();
+                } else {
+                    // Otherwise, it was successfully saved
+                    Toast.makeText(this, getString(R.string.success_saving),Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                // There is an existing item so update it
+                int rowsAffected = getContentResolver().update(currentItemUri, cv, null, null);
+
+                // Show toast based on success of update
+                if (rowsAffected == 0) {
+                    // There was an error
+                    Toast.makeText(this, getString(R.string.error_udating), Toast.LENGTH_SHORT).show();
+                } else {
+                    // Successfully update
+                    Toast.makeText(this, getString(R.string.success_updating), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
+
+        /*
         if (!TextUtils.isEmpty(pName)) {
             cv.put(InventoryContract.InventoryEntry.COLUMN_PROD_NAME, pName);
         } else {
@@ -212,8 +266,8 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
             cv.put(InventoryContract.InventoryEntry.COLUMN_SUPPL_NUM, sNum);
         } else {
             Toast.makeText(this, "Supplier number required", Toast.LENGTH_SHORT).show();
-        }
-
+        }*/
+/*
         // Check whether or not this is an existing item
         if (currentItemUri == null) {
             //This is a new item so insert it into the provider
@@ -239,7 +293,7 @@ public class EditActivity extends AppCompatActivity implements LoaderManager.Loa
                 // Successfully update
                 Toast.makeText(this, getString(R.string.success_updating), Toast.LENGTH_SHORT).show();
             }
-        }
+        }*/
     }
 
     @Override
